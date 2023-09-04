@@ -1,18 +1,29 @@
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Calendar } from "react-big-calendar";
-import { Navbar, CalendarEvent, CalendarModal, FabAddNew, FabDelete } from "../";
+import {
+  Navbar,
+  CalendarEvent,
+  CalendarModal,
+  FabAddNew,
+  FabDelete,
+} from "../";
 import { localizer, getMessagesES } from "../../helpers";
 import { useState } from "react";
-import { useUiStore, useCalendarStore } from "../../hooks";
+import { useUiStore, useCalendarStore, useAuthStore } from "../../hooks";
+import { useSelector } from "react-redux";
 
 export const CalendarPage = () => {
   const [lastView, setLastView] = useState(
     localStorage.getItem("lastView") || "month"
   );
 
-  const {events, setActiveEvent} = useCalendarStore()
+  const { user, startLogout } = useAuthStore();
 
-  const {openDateModal} = useUiStore();
+  const { uid, name } = user;
+
+  const { events, setActiveEvent } = useCalendarStore();
+
+  const { openDateModal } = useUiStore();
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
@@ -20,18 +31,17 @@ export const CalendarPage = () => {
       borderRadius: "5px",
       opacity: 0.8,
       color: "white",
-      height: "40px"
-     
+      height: "40px",
     };
     return { style };
   };
 
   const onDoubleClick = (event) => {
-    openDateModal()
+    openDateModal();
   };
 
   const onSelect = (event) => {
-    setActiveEvent(event)
+    setActiveEvent(event);
   };
 
   const onViewChange = (event) => {
@@ -41,7 +51,7 @@ export const CalendarPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar name={name} startLogout={startLogout} />
       <Calendar
         culture="es"
         localizer={localizer}
@@ -60,8 +70,8 @@ export const CalendarPage = () => {
         onView={onViewChange}
       />
       <CalendarModal />
-      <FabAddNew/>
-      <FabDelete/>
+      <FabAddNew />
+      <FabDelete />
     </>
   );
 };
