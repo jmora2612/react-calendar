@@ -6,7 +6,7 @@ import { addHours } from "date-fns";
 //   title: "Cumple jefe",
 //   notes: "prueba de notas",
 //   start: new Date(),
-//   end: addHours(new Date(), 2),
+//   end: addHours(new Date(), 1),
 //   bgColor: "#fafafa",
 //   user: {
 //     _id: "123",

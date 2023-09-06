@@ -85,7 +85,7 @@ export const CalendarModal = () => {
       title: "",
       notes: "",
       start: new Date(),
-      end: addHours(new Date(), 2),
+      end: addHours(new Date(), 1),
     });
     setResetForm(false);
   }, [resetForm, events]);
