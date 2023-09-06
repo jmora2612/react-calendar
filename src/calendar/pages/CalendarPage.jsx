@@ -8,7 +8,7 @@ import {
   FabDelete,
 } from "../";
 import { localizer, getMessagesES } from "../../helpers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUiStore, useCalendarStore, useAuthStore } from "../../hooks";
 import { useSelector } from "react-redux";
 
@@ -19,9 +19,9 @@ export const CalendarPage = () => {
 
   const { user, startLogout } = useAuthStore();
 
-  const { uid, name } = user;
+  const { _id, name } = user;
 
-  const { events, setActiveEvent } = useCalendarStore();
+  const { events, setActiveEvent, startLoadingEvent } = useCalendarStore();
 
   const { openDateModal } = useUiStore();
 
@@ -48,6 +48,11 @@ export const CalendarPage = () => {
     localStorage.setItem("lastView", event);
     setLastView(event);
   };
+
+  useEffect(() => {
+    startLoadingEvent()
+  }, [])
+  
 
   return (
     <>

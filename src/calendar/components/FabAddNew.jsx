@@ -7,17 +7,17 @@ export const FabAddNew = () => {
     const { setActiveEvent } = useCalendarStore();
     const handleClickNew = () =>{
         openDateModal()
-        setActiveEvent({
-            title: "",
-            notes: "",
-            start: new Date(),
-            end: addHours(new Date(), 2),
-            bgColor: "#fafafa",
-            user: {
-              _id: "123",
-              name: "Jessi",
-            }
-          })
+        // setActiveEvent({
+        //     title: "",
+        //     notes: "",
+        //     start: new Date(),
+        //     end: addHours(new Date(), 2),
+        //     bgColor: "#fafafa",
+        //     user: {
+        //       _id: "123",
+        //       name: "Jessi",
+        //     }
+        //   })
     }
 
   return (

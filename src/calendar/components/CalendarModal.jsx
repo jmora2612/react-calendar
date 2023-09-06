@@ -12,7 +12,14 @@ registerLocale("es", es);
 
 export const CalendarModal = () => {
   const { isDateModalOpen, closeDateModal } = useUiStore();
-  const { activentEvent, startSavingEvent } = useCalendarStore();
+  const {
+    activentEvent,
+    startSavingEvent,
+    startCloseCalendarModal,
+    resetForm,
+    setResetForm,
+    events
+  } = useCalendarStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [formValues, setFormValues] = useState({
@@ -66,11 +73,24 @@ export const CalendarModal = () => {
   Modal.setAppElement("#root");
 
   const onCloseModal = () => {
+    if (activentEvent) {
+      startCloseCalendarModal();
+      setResetForm(true)
+    }
     closeDateModal();
   };
 
+  useEffect(() => {
+    setFormValues({
+      title: "",
+      notes: "",
+      start: new Date(),
+      end: addHours(new Date(), 2),
+    });
+    setResetForm(false);
+  }, [resetForm, events]);
+
   const onSubmit = async (event) => {
-    console.log(formValues.title.length);
     event.preventDefault();
     setFormSubmitted(true);
     const difference = differenceInSeconds(formValues.end, formValues.start);
@@ -85,13 +105,20 @@ export const CalendarModal = () => {
     }
 
     if (!formValues.title || !formValues.notes) return;
-
-    await startSavingEvent(formValues);
+    const prueba = await startSavingEvent(formValues);
+    if (prueba) {
+      Swal.fire("Error en la autenticacion", prueba, "error");
+      return;
+    }
     setFormSubmitted(false);
     closeDateModal();
     formValues._id
-      ? Swal.fire("Nota actualizada", "Nota actualizada correctamente", "success")
-      : Swal.fire("Nota creada", "Nota creada correctamente", "success")
+      ? Swal.fire(
+          "Nota actualizada",
+          "Nota actualizada correctamente",
+          "success"
+        )
+      : Swal.fire("Nota creada", "Nota creada correctamente", "success");
   };
 
   return (
@@ -104,7 +131,7 @@ export const CalendarModal = () => {
       overlayClassName="modal-fondo"
       closeTimeoutMS={200}
     >
-      <h1> Nuevo evento </h1>
+      {activentEvent ? <h1> Actualizar evento </h1> : <h1> Nuevo evento </h1>}
       <hr />
       <form className="container" onSubmit={onSubmit}>
         <div className="form-group mb-2">
@@ -194,7 +221,11 @@ export const CalendarModal = () => {
         >
           <button type="submit" className="btn btn-outline-primary">
             <i className="far fa-save"></i>
-            <span>Guardar</span>
+            {activentEvent ? (
+              <span style={{ marginLeft: "5px" }}>Actualizar</span>
+            ) : (
+              <span style={{ marginLeft: "5px" }}>Guardar</span>
+            )}
           </button>
         </div>
       </form>
