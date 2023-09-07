@@ -13,15 +13,5 @@ export const AppRouter = () => {
     return <h3>Cargando...</h3>;
   }
 
-  return (
-    <>
-      {status === "not-authenticated" ? (
-        <>
-          <Privada />
-        </>
-      ) : (
-        <Publica />
-      )}
-    </>
-  );
+  return <>{status === "not-authenticated" ? <Publica /> : <Privada />}</>;
 };

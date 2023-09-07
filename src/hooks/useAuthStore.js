@@ -14,7 +14,9 @@ export const useAuthStore = () => {
         password,
       });
       const { data } = result;
+      const setUser = { _id: data._id, name: data.name }
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(setUser));
       delete data.token;
       dispatch(onLogin(data));
       //
@@ -35,7 +37,9 @@ export const useAuthStore = () => {
         password,
       });
       const { data } = result;
+      const setUser = { _id: data._id, name: data.name }
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(setUser));
       delete data.token;
       dispatch(onLogin(data));
     } catch ({ response }) {
@@ -52,7 +56,9 @@ export const useAuthStore = () => {
     try {
       const { data: result } = await calendarApi.get("/token-refresh");
       const { data } = result;
+      const setUser = { _id: data._id, name: data.name }
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(setUser));
       dispatch(onLogin({ _id: data._id, name: data.name }));
     } catch ({ response }) {
       localStorage.clear();

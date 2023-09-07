@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import { useUiStore } from "../../hooks/useUiStore";
 import { useCalendarStore } from "../../hooks";
+import { getEnv } from "../../helpers";
 registerLocale("es", es);
 
 export const CalendarModal = () => {
@@ -18,7 +19,7 @@ export const CalendarModal = () => {
     startCloseCalendarModal,
     resetForm,
     setResetForm,
-    events
+    events,
   } = useCalendarStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -70,12 +71,17 @@ export const CalendarModal = () => {
       transform: "translate(-50%, -50%)",
     },
   };
-  Modal.setAppElement("#root");
 
+  if (getEnv().VITE_MODE !== "test") {
+    //esto hace que se sobreponga sobre todo, 
+    //osea sobre el elemento en que esta construida nuestra app react
+    Modal.setAppElement("#root");
+  }
+  
   const onCloseModal = () => {
     if (activentEvent) {
       startCloseCalendarModal();
-      setResetForm(true)
+      setResetForm(true);
     }
     closeDateModal();
   };

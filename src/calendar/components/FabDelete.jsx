@@ -7,7 +7,11 @@ export const FabDelete = () => {
   const handleDelete = async () => {
     const { data } = await startDeleteEvent();
     if (data.deletedCount >= 1) {
-      Swal.fire("Evento eliminado", 'Evento eliminado satisfactoriamente', "success");
+      Swal.fire(
+        "Evento eliminado",
+        "Evento eliminado satisfactoriamente",
+        "success"
+      );
       return;
     }
   };
@@ -16,6 +20,7 @@ export const FabDelete = () => {
     <>
       {events.length > 0 && (
         <button
+          aria-label="btn-danger"
           className="btn btn-danger fab-danger"
           onClick={handleDelete}
           disabled={!activentEvent}

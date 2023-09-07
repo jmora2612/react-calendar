@@ -20,7 +20,7 @@ export const CalendarPage = () => {
   const { user, startLogout } = useAuthStore();
 
   const { _id, name } = user;
-
+  
   const { events, setActiveEvent, startLoadingEvent } = useCalendarStore();
 
   const { openDateModal } = useUiStore();

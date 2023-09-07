@@ -1,10 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const objetLocalStorage = JSON.parse(localStorage.getItem("user"));
+
+let state = "";
+let setUser = {};
+if (localStorage.getItem("token")) {
+  state = "authenticated";
+  setUser = {
+    _id: objetLocalStorage._id,
+    name: objetLocalStorage.name,
+  };
+} else {
+  state = "not-authenticated";
+  setUser = {};
+}
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
-    status: "checking", //authenticated, not-authenticated
-    user: {},
+    status: state, //authenticated, not-authenticated
+    user: setUser,
     errorMessage: undefined,
   },
   reducers: {
@@ -29,4 +44,5 @@ export const authSlice = createSlice({
   },
 });
 // Action creators are generated for each case reducer function
-export const { onCheking, onLogin, onLogout, onClearErrorMessage } = authSlice.actions;
+export const { onCheking, onLogin, onLogout, onClearErrorMessage } =
+  authSlice.actions;

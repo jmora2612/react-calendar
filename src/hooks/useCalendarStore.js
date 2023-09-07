@@ -67,6 +67,7 @@ export const useCalendarStore = () => {
   };
 
   const startLoadingEvent = async () => {
+   
     try {
       const { data } = await calendarApi.get(`/calendarios-event/${userId}`);
       const CalendarEvents = data.data.map((el) => {
